@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import root_mean_squared_error, accuracy_score
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.neighbors import KNeighborsClassifier
@@ -13,7 +14,7 @@ df = pd.read_csv('Titanic-Dataset.csv')
 def interpret(data):
     print(data.head())
     print(data.describe())
-    print(data.info)
+    print(data.info())
     print(data.isnull().sum())
 
 def data_cleaning(df):
@@ -61,22 +62,31 @@ def neural_network(df):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model.fit(X_train, y_train)
+    # Scale X training / test data
+    X_train_scaled = StandardScaler().fit_transform(X_train)
+    X_test_scaled = StandardScaler().fit_transform(X_test)
+    
+    model.fit(X_train_scaled, y_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test_scaled)
+
     return y_test ,y_pred
 
 def knn(df):
-    model = KNeighborsClassifier(n_neighbors=5)
+    model = KNeighborsClassifier()
 
     X = df[['Sex', 'Pclass', 'Fare', 'Age']]
     y = df['Survived']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model.fit(X_train, y_train)
+    # Scale X training / test data
+    X_train_scaled = StandardScaler().fit_transform(X_train)
+    X_test_scaled = StandardScaler().fit_transform(X_test)
+    
+    model.fit(X_train_scaled, y_train)
 
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test_scaled)
 
     return y_test, y_pred
 
