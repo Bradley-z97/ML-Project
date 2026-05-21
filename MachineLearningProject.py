@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, accuracy_score
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import root_mean_squared_error, accuracy_score
+from sklearn.model_selection import train_test_split
 import seaborn as sns
 
 df = pd.read_csv('Titanic-Dataset.csv')
@@ -37,8 +38,31 @@ def correlation_matrix(df):
                 cmap='magma')
     plt.savefig('plot.png')
 
+def log_reg(df):
+    model = LogisticRegression()
+    
+    X = df[['Sex', 'Pclass', 'Fare']]
+    y = df['Survived']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    trained_model = model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+    print(y_pred)
+    return y_test ,y_pred
+
+def check_metrics(actual, pred):
+    acc = accuracy_score(actual, pred)
+    rmse = root_mean_squared_error(actual, pred)
+
+    string = f'Accuracy Score: {acc}\nRMSE: {rmse}'
+    return string
+
 
 if __name__ == '__main__':
     clean_df = data_cleaning(df) 
     correlation_matrix(clean_df)
-    
+    actual, prediction = log_reg(clean_df)
+    print(check_metrics(actual, prediction))
+
