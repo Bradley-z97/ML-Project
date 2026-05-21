@@ -27,7 +27,7 @@ The final approach I used saw a similar effect when using ```StandardScaler()```
 | KNN (unscaled) | 68.71% | 0.559 |
 | KNN (scaled) | 82.7% | 0.416 |
 ## Conclusion 
-To conclude, there is not always a 'best' model to always refer to when creating a classification or prediction model. The data you feed to model is always the most important factor, secondary to the model choice. This was proved by using the MLP and KNN classifiers before and after scaling the data with ```StandardScaler()```; the improvement was significant - A big leap of nearly 14% accuracy when scaling the KNN model, and a modest but still notable improvement for the Neural Network, just shy of 4% improvement. I have learnt from this project more about data analysis, cleaning, and feature selection, as well as the importance of selecting a suitable model based on the type of classifications or predictions you wish to achieve.
+To conclude, there is not always a 'best' model to always refer to when creating a classification or prediction model. The data you feed to model is always the most important factor, secondary to the model choice. This was proved by using the MLP and KNN classifiers before and after scaling the data with ```StandardScaler()```; the improvement was significant - a big leap of nearly 14% accuracy when scaling the KNN model, and a modest but still notable improvement for the Neural Network, just shy of 4% improvement. I have learnt from this project more about data analysis, cleaning, and feature selection, as well as the importance of selecting a suitable model based on the type of classifications or predictions you wish to achieve.
 ### Setup
 ```bash
 pip install -r requirements.txt
