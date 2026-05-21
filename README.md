@@ -22,7 +22,9 @@ The final approach I used saw a similar effect when using ```StandardScaler()```
 | Model | Accuracy | RMSE |
 |---|---|---|
 | Logistic Regression | 79.9% | 0.448 |
+| Neural Network (unscaled) | 78.21% | 46.68% |
 | Neural Network (scaled) | 82.1% | 0.423 |
+| KNN (unscaled) | 68.71% | 55.93% |
 | KNN (scaled) | 82.7% | 0.416 |
 ## Conclusion 
 To conclude, there is not always a 'best' model to always refer to when creating a classification or prediction model. The data you feed to model is always the most important factor, secondary to the model choice. This was proved by using the MLP and KNN classifiers before and after scaling the data with ```StandardScaler()```; the improvement was significant. I have learnt from this project more about data analysis, cleaning, and feature selection, as well as the importance of selecting a suitable model based on the type of classifications or predictions you wish to achieve.
