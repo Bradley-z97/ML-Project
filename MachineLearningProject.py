@@ -55,7 +55,7 @@ def log_reg(df):
     return y_test ,y_pred
 
 def neural_network(df):
-    model = MLPClassifier((64, 32), random_state=42)
+    model = MLPClassifier((64, 32), max_iter=5000, random_state=42)
     
     X = df[['Sex', 'Pclass', 'Fare', 'Age']]
     y = df['Survived']
