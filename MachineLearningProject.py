@@ -5,6 +5,7 @@ from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import root_mean_squared_error, accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
 import seaborn as sns
 
 df = pd.read_csv('Titanic-Dataset.csv')
@@ -40,7 +41,7 @@ def correlation_matrix(df):
     plt.savefig('plot.png')
 
 def log_reg(df):
-    model = LogisticRegression(l1_ratio=0) # L2 penalty
+    model = LogisticRegression() 
     
     X = df[['Sex', 'Pclass', 'Fare', 'Age']]
     y = df['Survived']
@@ -55,7 +56,7 @@ def log_reg(df):
 def neural_network(df):
     model = MLPClassifier((64, 32), random_state=42)
     
-    X = df[['Sex', 'Pclass', 'Fare', 'Age', 'Parch']]
+    X = df[['Sex', 'Pclass', 'Fare', 'Age']]
     y = df['Survived']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -64,6 +65,20 @@ def neural_network(df):
 
     y_pred = model.predict(X_test)
     return y_test ,y_pred
+
+def knn(df):
+    model = KNeighborsClassifier(n_neighbors=5)
+
+    X = df[['Sex', 'Pclass', 'Fare', 'Age']]
+    y = df['Survived']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
+
+    return y_test, y_pred
 
 def check_metrics(actual, pred):
     acc = accuracy_score(actual, pred)
@@ -82,7 +97,12 @@ if __name__ == '__main__':
     print(check_metrics(actual, prediction))
     print('\n')
     # Neural network
-    actual, predicition = neural_network(clean_df)
+    actual, prediction = neural_network(clean_df)
     print('---Neural Network---')
-    print(check_metrics(actual, predicition))
+    print(check_metrics(actual, prediction))
+    print('\n')
+    # K Nearest Neighbours
+    actual, prediction = knn(clean_df)
+    print('---K Nearest Neighbours---')
+    print(check_metrics(actual, prediction))
     
