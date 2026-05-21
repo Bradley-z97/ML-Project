@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import root_mean_squared_error, accuracy_score
 from sklearn.model_selection import train_test_split
+from sklearn.neural_network import MLPClassifier
 import seaborn as sns
 
 df = pd.read_csv('Titanic-Dataset.csv')
@@ -39,17 +40,29 @@ def correlation_matrix(df):
     plt.savefig('plot.png')
 
 def log_reg(df):
-    model = LogisticRegression()
+    model = LogisticRegression(l1_ratio=0) # L2 penalty
     
-    X = df[['Sex', 'Pclass', 'Fare']]
+    X = df[['Sex', 'Pclass', 'Fare', 'Age']]
     y = df['Survived']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
-    trained_model = model.fit(X_train, y_train)
+    model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
-    print(y_pred)
+    return y_test ,y_pred
+
+def neural_network(df):
+    model = MLPClassifier((64, 32), random_state=42)
+    
+    X = df[['Sex', 'Pclass', 'Fare', 'Age', 'Parch']]
+    y = df['Survived']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    model.fit(X_train, y_train)
+
+    y_pred = model.predict(X_test)
     return y_test ,y_pred
 
 def check_metrics(actual, pred):
@@ -63,6 +76,13 @@ def check_metrics(actual, pred):
 if __name__ == '__main__':
     clean_df = data_cleaning(df) 
     correlation_matrix(clean_df)
+    # Logistic regression
     actual, prediction = log_reg(clean_df)
+    print('---Logistic Regression---')
     print(check_metrics(actual, prediction))
-
+    print('\n')
+    # Neural network
+    actual, predicition = neural_network(clean_df)
+    print('---Neural Network---')
+    print(check_metrics(actual, predicition))
+    
